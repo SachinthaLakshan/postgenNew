@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 import type { PropsWithChildren } from "react";
 import { Providers } from "./providers";
+import { ToastContainer } from 'react-toastify';
 
 export const metadata: Metadata = {
   title: {
@@ -21,14 +22,15 @@ export const metadata: Metadata = {
     "Next.js admin dashboard toolkit with 200+ templates, UI components, and integrations for fast dashboard development.",
 };
 
+
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
           <NextTopLoader color="#5750F1" showSpinner={false} />
-
-          <div className="flex min-h-screen">
+          {children}
+          {/* <div className="flex min-h-screen">
             <Sidebar />
 
             <div className="w-full bg-gray-2 dark:bg-[#020d1a]">
@@ -38,7 +40,19 @@ export default function RootLayout({ children }: PropsWithChildren) {
                 {children}
               </main>
             </div>
-          </div>
+          </div> */}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
         </Providers>
       </body>
     </html>

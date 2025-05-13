@@ -11,15 +11,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { LogOutIcon, SettingsIcon, UserIcon } from "./icons";
+import { useRouter } from "next/navigation";
 
-export function UserInfo() {
+interface UserInfoProps {
+  userInfo: {
+    name: string;
+    email: string;
+  }
+}
+
+export function UserInfo({ userInfo }: UserInfoProps) {
   const [isOpen, setIsOpen] = useState(false);
-
+const router = useRouter();
   const USER = {
-    name: "John Smith",
-    email: "johnson@nextadmin.com",
+    name: "User",
+    email: userInfo?.email || "",
     img: "/images/user/user-03.png",
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user-info");
+    router.push("/auth/sign-in");
+  }
 
   return (
     <Dropdown isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -75,7 +88,7 @@ export function UserInfo() {
           </figcaption>
         </figure>
 
-        <hr className="border-[#E8E8E8] dark:border-dark-3" />
+        {/* <hr className="border-[#E8E8E8] dark:border-dark-3" />
 
         <div className="p-2 text-base text-[#4B5563] dark:text-dark-6 [&>*]:cursor-pointer">
           <Link
@@ -99,14 +112,14 @@ export function UserInfo() {
               Account Settings
             </span>
           </Link>
-        </div>
+        </div> */}
 
         <hr className="border-[#E8E8E8] dark:border-dark-3" />
 
         <div className="p-2 text-base text-[#4B5563] dark:text-dark-6">
           <button
             className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-[9px] hover:bg-gray-2 hover:text-dark dark:hover:bg-dark-3 dark:hover:text-white"
-            onClick={() => setIsOpen(false)}
+            onClick={() => handleLogout()}
           >
             <LogOutIcon />
 

@@ -11,17 +11,22 @@ export const metadata: Metadata = {
 export default function SignIn() {
   return (
     <>
-      <Breadcrumb pageName="Sign In" />
+      {/* <Breadcrumb pageName="Sign In" /> */}
+      <div className="mb-6 mt-6 flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-center">
+        <h2 className="text-[26px] font-bold leading-[30px] text-dark dark:text-white">
+          Sign In
+        </h2>
+      </div>
 
       <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
-        <div className="flex flex-wrap items-center">
+        <div className="flex flex-wrap justify-center items-center">
           <div className="w-full xl:w-1/2">
             <div className="w-full p-4 sm:p-12.5 xl:p-15">
               <Signin />
             </div>
           </div>
 
-          <div className="hidden w-full p-7.5 xl:block xl:w-1/2">
+          {/* <div className="hidden w-full p-7.5 xl:block xl:w-1/2">
             <div className="custom-gradient-1 overflow-hidden rounded-2xl px-12.5 pt-12.5 dark:!bg-dark-2 dark:bg-none">
               <Link className="mb-10 inline-block" href="/">
                 <Image
@@ -62,7 +67,7 @@ export default function SignIn() {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

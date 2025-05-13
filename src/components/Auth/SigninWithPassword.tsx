@@ -4,8 +4,14 @@ import Link from "next/link";
 import React, { useState } from "react";
 import InputGroup from "../FormElements/InputGroup";
 import { Checkbox } from "../FormElements/checkbox";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
-export default function SigninWithPassword() {
+interface AuthProps {
+  signIn: Boolean;
+}
+
+export default function SigninWithPassword({ signIn }: AuthProps) {
   const [data, setData] = useState({
     email: process.env.NEXT_PUBLIC_DEMO_USER_MAIL || "",
     password: process.env.NEXT_PUBLIC_DEMO_USER_PASS || "",
@@ -13,6 +19,51 @@ export default function SigninWithPassword() {
   });
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    if (signIn) {
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: data.email, password: data.password }),
+        });
+        if (res.ok) {
+          toast.success("Login successful");
+          localStorageHandler();
+          setLoading(false);
+          router.push("/");
+        }
+        if (!res.ok) throw new Error("Invalid credentials");
+
+      } catch (err: any) {
+        toast.error(err.message || "Login failed")
+      }
+    } else {
+
+      setLoading(true);
+      try {
+        const res = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: data.email, password: data.password }),
+        });
+        if (res.ok) {
+          toast.success("Registration successful");
+          localStorageHandler();
+          setLoading(false);
+          router.push("/");
+        }
+        if (!res.ok) throw new Error("Registration failed");
+      } catch (err: any) {
+        toast.error(err.message || "Registration failed");
+      }
+      setLoading(false);
+    }
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData({
@@ -21,16 +72,9 @@ export default function SigninWithPassword() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // You can remove this code block
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  };
+  const localStorageHandler = () => {
+    localStorage.setItem("user-info", JSON.stringify(data));
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -71,12 +115,12 @@ export default function SigninWithPassword() {
           }
         />
 
-        <Link
+        {/* <Link
           href="/auth/forgot-password"
           className="hover:text-primary dark:text-white dark:hover:text-primary"
         >
           Forgot Password?
-        </Link>
+        </Link> */}
       </div>
 
       <div className="mb-4.5">
@@ -84,7 +128,8 @@ export default function SigninWithPassword() {
           type="submit"
           className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
         >
-          Sign In
+          {signIn ? "Sign In" : "Sign Up"}
+
           {loading && (
             <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-white border-t-transparent dark:border-primary dark:border-t-transparent" />
           )}
