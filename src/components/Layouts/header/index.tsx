@@ -9,14 +9,25 @@ import { Notification } from "./notification";
 import { ThemeToggleSwitch } from "./theme-toggle";
 import { UserInfo } from "./user-info";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function Header() {
   const { toggleSidebar, isMobile } = useSidebarContext();
+  const router = useRouter();
   const [userInfo, setUserInfo] = useState({ name: "User", email: ""})
 
   useEffect(() => {
-    localStorage.getItem("user-info") &&
-      setUserInfo(JSON.parse(localStorage.getItem("user-info") || "{}"));
+    const userInfo = localStorage.getItem("user-info");
+    if (userInfo) {
+      const parsedUserInfo = JSON.parse(userInfo);
+      setUserInfo({
+        name: parsedUserInfo.name,
+        email: parsedUserInfo.email,
+      });
+    }else{
+      router.push("/auth/sign-in");
+    }
+
   }, []);
     
 
