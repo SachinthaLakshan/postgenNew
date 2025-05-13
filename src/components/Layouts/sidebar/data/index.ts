@@ -16,7 +16,7 @@ export const NAV_DATA = [
       // },
       {
         title: "Generate",
-        url: "/calendar",
+        url: "/",
         icon: Icons.FourCircle,
         items: [],
       },
