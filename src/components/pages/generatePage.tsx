@@ -28,63 +28,63 @@ export function GeneratePage({ className }: PropsType) {
   const [pageName, setPageName] = useState("Strange And Interesting Things");
   const [data, setData] = useState<ApiResponse>({
     "content": [
-        {
-            "fact": "Certain species of bioluminescent fungi can increase their light emission by over 300% when subjected to mild mechanical stress, hinting at a novel defense mechanism.",
-            "description": "While bioluminescent fungi are known to glow, the dramatic surge in light output under physical pressure is a recently observed phenomenon. Scientists hypothesize that this heightened illumination might serve as a \"burglar alarm,\" attracting nocturnal insects that then prey on the invertebrates damaging the fungi. This defense strategy represents a fascinating interplay between light emission, mechanical stimulation, and interspecies communication within the forest ecosystem. The increase in luminescence might also startle potential herbivores, deterring them from further consumption.",
-            "highlights": [
-                "bioluminescent fungi",
-                "light emission",
-                "mechanical stress",
-                "defense mechanism"
-            ]
-        },
-        {
-            "fact": "Ancient Mesopotamian cylinder seals, often considered signatures, sometimes contained deliberate errors, possibly to prevent exact replication and ensure authenticity.",
-            "description": "Mesopotamian cylinder seals were intricately carved miniature artworks rolled onto clay to create impressions. While they functioned as signatures and identifiers, the purposeful inclusion of small, almost imperceptible imperfections has been discovered in some. The intention behind this practice may have been to thwart forgeries, creating a unique \"fingerprint\" within the seal's design that would be difficult to duplicate without the original seal itself. This hints at a sophisticated understanding of security and authentication even in the ancient world.",
-            "highlights": [
-                "Mesopotamian cylinder seals",
-                "deliberate errors",
-                "replication",
-                "authenticity"
-            ]
-        },
-        {
-            "fact": "Specific quantum entanglement patterns observed in simulated black hole evaporation events correlate with previously unknown subatomic particle spin configurations.",
-            "description": "The study of Hawking radiation, the theoretical emission from black holes, is notoriously difficult. Scientists use simulations to gain insight. Intriguingly, during simulated black hole evaporation, the quantum entanglement patterns between escaping particles are showing correspondence with unique spin configurations that have not been fully described in the existing particle physics models. This could mean that information from within the black hole is encoded in these subatomic spin configurations during the evaporation process, offering a new avenue to explore the quantum nature of spacetime.",
-            "highlights": [
-                "quantum entanglement",
-                "black hole evaporation",
-                "subatomic particle spin",
-                "configurations"
-            ]
-        },
-        {
-            "fact": "Certain deep-sea crustaceans exhibit a form of \"ecological echolocation,\" using the reflections of bioluminescent plankton swarms to navigate pitch-black environments.",
-            "description": "Echolocation is usually associated with bats and dolphins, but some deep-sea crustaceans have adapted a similar technique using bioluminescence instead of sound. These creatures emit a faint light that illuminates bioluminescent plankton swarms. By sensing the subtle reflections of this plankton-generated light, they are able to create a mental map of their surroundings, effectively \"seeing\" in the dark without the need for conventional vision. This unusual adaptation highlights the diverse strategies life employs to thrive in the challenging conditions of the deep ocean.",
-            "highlights": [
-                "deep-sea crustaceans",
-                "ecological echolocation",
-                "bioluminescent plankton",
-                "navigate"
-            ]
-        },
-        {
-            "fact": "Human gut bacteria can be directly influenced by prolonged exposure to classical musical structures, with measurable changes in metabolic byproduct production observed.",
-            "description": "The gut microbiome is increasingly recognized as a powerful regulator of human health. Recent studies suggest that prolonged exposure to classical musical compositions can alter the composition and activity of gut bacteria. Specific classical pieces have been shown to induce shifts in the production of metabolic byproducts, such as short-chain fatty acids, which are vital for gut health and overall well-being. This points to a potential link between the auditory environment, the gut microbiome, and overall physiological health, suggesting that music therapy could be a viable avenue for improving gut health.",
-            "highlights": [
-                "gut bacteria",
-                "classical music",
-                "metabolic byproduct",
-                "production"
-            ]
-        }
+        // {
+        //     "fact": "Certain species of bioluminescent fungi can increase their light emission by over 300% when subjected to mild mechanical stress, hinting at a novel defense mechanism.",
+        //     "description": "While bioluminescent fungi are known to glow, the dramatic surge in light output under physical pressure is a recently observed phenomenon. Scientists hypothesize that this heightened illumination might serve as a \"burglar alarm,\" attracting nocturnal insects that then prey on the invertebrates damaging the fungi. This defense strategy represents a fascinating interplay between light emission, mechanical stimulation, and interspecies communication within the forest ecosystem. The increase in luminescence might also startle potential herbivores, deterring them from further consumption.",
+        //     "highlights": [
+        //         "bioluminescent fungi",
+        //         "light emission",
+        //         "mechanical stress",
+        //         "defense mechanism"
+        //     ]
+        // },
+        // {
+        //     "fact": "Ancient Mesopotamian cylinder seals, often considered signatures, sometimes contained deliberate errors, possibly to prevent exact replication and ensure authenticity.",
+        //     "description": "Mesopotamian cylinder seals were intricately carved miniature artworks rolled onto clay to create impressions. While they functioned as signatures and identifiers, the purposeful inclusion of small, almost imperceptible imperfections has been discovered in some. The intention behind this practice may have been to thwart forgeries, creating a unique \"fingerprint\" within the seal's design that would be difficult to duplicate without the original seal itself. This hints at a sophisticated understanding of security and authentication even in the ancient world.",
+        //     "highlights": [
+        //         "Mesopotamian cylinder seals",
+        //         "deliberate errors",
+        //         "replication",
+        //         "authenticity"
+        //     ]
+        // },
+        // {
+        //     "fact": "Specific quantum entanglement patterns observed in simulated black hole evaporation events correlate with previously unknown subatomic particle spin configurations.",
+        //     "description": "The study of Hawking radiation, the theoretical emission from black holes, is notoriously difficult. Scientists use simulations to gain insight. Intriguingly, during simulated black hole evaporation, the quantum entanglement patterns between escaping particles are showing correspondence with unique spin configurations that have not been fully described in the existing particle physics models. This could mean that information from within the black hole is encoded in these subatomic spin configurations during the evaporation process, offering a new avenue to explore the quantum nature of spacetime.",
+        //     "highlights": [
+        //         "quantum entanglement",
+        //         "black hole evaporation",
+        //         "subatomic particle spin",
+        //         "configurations"
+        //     ]
+        // },
+        // {
+        //     "fact": "Certain deep-sea crustaceans exhibit a form of \"ecological echolocation,\" using the reflections of bioluminescent plankton swarms to navigate pitch-black environments.",
+        //     "description": "Echolocation is usually associated with bats and dolphins, but some deep-sea crustaceans have adapted a similar technique using bioluminescence instead of sound. These creatures emit a faint light that illuminates bioluminescent plankton swarms. By sensing the subtle reflections of this plankton-generated light, they are able to create a mental map of their surroundings, effectively \"seeing\" in the dark without the need for conventional vision. This unusual adaptation highlights the diverse strategies life employs to thrive in the challenging conditions of the deep ocean.",
+        //     "highlights": [
+        //         "deep-sea crustaceans",
+        //         "ecological echolocation",
+        //         "bioluminescent plankton",
+        //         "navigate"
+        //     ]
+        // },
+        // {
+        //     "fact": "Human gut bacteria can be directly influenced by prolonged exposure to classical musical structures, with measurable changes in metabolic byproduct production observed.",
+        //     "description": "The gut microbiome is increasingly recognized as a powerful regulator of human health. Recent studies suggest that prolonged exposure to classical musical compositions can alter the composition and activity of gut bacteria. Specific classical pieces have been shown to induce shifts in the production of metabolic byproducts, such as short-chain fatty acids, which are vital for gut health and overall well-being. This points to a potential link between the auditory environment, the gut microbiome, and overall physiological health, suggesting that music therapy could be a viable avenue for improving gut health.",
+        //     "highlights": [
+        //         "gut bacteria",
+        //         "classical music",
+        //         "metabolic byproduct",
+        //         "production"
+        //     ]
+        // }
     ],
     images: [
-        "https://im.runware.ai/image/ws/2/ii/771ad03b-e375-4e6b-96aa-e2456876fa52.png",
-        "https://im.runware.ai/image/ws/2/ii/6c166981-8aa7-400e-97cf-cd641c48eb40.png",
-        "https://im.runware.ai/image/ws/2/ii/08f7a48c-6e5a-45a7-b2f0-cf4b65b55c44.png",
-        "https://im.runware.ai/image/ws/2/ii/a765a2a3-67a9-43ea-985a-4183ff67e0b8.png",
-        "https://im.runware.ai/image/ws/2/ii/c25d15e8-aaa4-49e3-8aef-a4e956b422b9.png"
+        // "https://im.runware.ai/image/ws/2/ii/771ad03b-e375-4e6b-96aa-e2456876fa52.png",
+        // "https://im.runware.ai/image/ws/2/ii/6c166981-8aa7-400e-97cf-cd641c48eb40.png",
+        // "https://im.runware.ai/image/ws/2/ii/08f7a48c-6e5a-45a7-b2f0-cf4b65b55c44.png",
+        // "https://im.runware.ai/image/ws/2/ii/a765a2a3-67a9-43ea-985a-4183ff67e0b8.png",
+        // "https://im.runware.ai/image/ws/2/ii/c25d15e8-aaa4-49e3-8aef-a4e956b422b9.png"
     ]
 });
   const [loading, setLoading] = useState(false);
@@ -115,6 +115,7 @@ export function GeneratePage({ className }: PropsType) {
       if (response){
         const data1:ApiResponse = {content:[...data.content ,...response.content], images:[...data.images ,...response.images]};
         setData(data1);
+        toast.success(`${response.images.length} Content generated successfully!`);
       }
       
     } catch (err: any) {
