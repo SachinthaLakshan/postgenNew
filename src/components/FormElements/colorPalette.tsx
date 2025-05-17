@@ -32,48 +32,41 @@ const ColorPalette = ({
   };
 
   return (
-    <div className="p-6 rounded-xl  shadow-sm">
-      {/* Main Color Section */}
-      <div className="mb-6">
-        <h3 className="text-sm font-medium text-gray-400 mb-3">Main Color</h3>
-        <div className="flex items-center gap-4">
-          <div 
-            className="w-16 h-16 rounded-full cursor-pointer border-2 border-gray-200 shadow-sm"
+    <div className="p-4">
+      <div className="flex flex-wrap items-center gap-2 justify-end lg:justify-start">
+        {/* Primary Color */}
+        <div className="flex flex-col items-center mr-10">
+          <span className="text-xs text-gray-500 mb-1">Main Color </span>
+          <div
+            className="w-15 h-15 rounded-md cursor-pointer border border-gray-200 shadow-sm transition-transform hover:scale-105"
             style={{ backgroundColor: mainColor }}
             onClick={() => setActivePicker({ type: 'main' })}
           />
-          <div className="flex flex-col">
-            <code className="text-sm text-gray-600">{mainColor}</code>
-            <span className="text-xs text-gray-400">Click circle to edit</span>
-          </div>
+          <code className="text-xs mt-1">{mainColor}</code>
         </div>
-      </div>
 
-      {/* Sub Colors Section */}
-      <div className="p-4 rounded-lg border border-gray-700 ">
-        <h3 className="text-sm font-medium text-gray-400 mb-3">Sub Colors</h3>
-        <div className="grid grid-cols-2 gap-4">
-          {childColors.map((color, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <div 
-                className="w-12 h-12 rounded-full cursor-pointer border border-gray-300 shadow-sm"
-                style={{ backgroundColor: color }}
-                onClick={() => setActivePicker({ type: 'child', index })}
-              />
-              <code className="text-xs text-gray-600">{color}</code>
-            </div>
-          ))}
-        </div>
+        {/* Color Palette */}
+        {childColors.map((color, index) => (
+          <div key={index} className="flex flex-col items-center mx-2">
+            <span className="text-xs text-gray-500 mb-1">{index + 1}</span>
+            <div
+              className="w-10 h-10 rounded-md cursor-pointer border border-gray-200 shadow-sm transition-transform hover:scale-110"
+              style={{ backgroundColor: color }}
+              onClick={() => setActivePicker({ type: 'child', index })}
+            />
+            <code className="text-xs mt-1">{color}</code>
+          </div>
+        ))}
       </div>
 
       {/* Color Picker Modal */}
       {activePicker && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-xl shadow-lg max-w-xs">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-white p-6 rounded-xl shadow-2xl max-w-xs w-full">
             <HexColorPicker
               color={
-                activePicker.type === 'main' 
-                  ? mainColor 
+                activePicker.type === 'main'
+                  ? mainColor
                   : childColors[activePicker.index || 0]
               }
               onChange={(color) => {
@@ -81,16 +74,17 @@ const ColorPalette = ({
                   ? handleMainColorChange(color)
                   : handleChildColorChange(color, activePicker.index || 0);
               }}
+              className="w-full h-64"
             />
-            <div className="mt-4 flex justify-between items-center">
-              <code className="text-sm font-mono bg-gray-100 px-2 py-1 rounded">
+            <div className="mt-5 flex justify-between items-center">
+              <code className="text-sm font-mono px-3 py-2 rounded-md flex-1 mr-3 text-center border border-gray-200">
                 {activePicker.type === 'main' ? mainColor : childColors[activePicker.index || 0]}
               </code>
               <button
                 onClick={() => setActivePicker(null)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors font-medium"
               >
-                Done
+                Apply
               </button>
             </div>
           </div>
