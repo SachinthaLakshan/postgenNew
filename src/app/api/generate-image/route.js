@@ -1,4 +1,4 @@
-import { GoogleGenAI,Modality } from "@google/genai";
+import { GoogleGenAI, Modality } from "@google/genai";
 import { NextResponse } from "next/server";
 // import OpenAI from "openai";
 import * as fs from "node:fs";
@@ -10,7 +10,7 @@ export const runtime = "nodejs";
 // const openai = new OpenAI({
 //   apiKey: process.env.OPENAI_API_KEY,
 // });
-const  runware  =  new  Runware({ apiKey: process.env.RUNWARE_API_KEY });
+const runware = new Runware({ apiKey: process.env.RUNWARE_API_KEY });
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -55,8 +55,8 @@ Example Output:
       model: "gemini-2.0-flash",
       contents: modifiedPrompt,
     });
-    console.log('textRes>>:',textResponse.candidates[0].content);
-    
+    //console.log('textRes>>:',textResponse.candidates[0].content);
+
 
     if (!textResponse.candidates[0].content) {
       throw new Error("No content returned from GPT-4");
@@ -96,10 +96,9 @@ Example Output:
             outputType: "URL" ,
             outputFormat: "PNG",
             uploadEndpoint: ""
-            
+
           })
-          console.log("images>>:",images);
-          
+
           let imageData=images[0].imageURL;
           // for (const part of imageResponse.candidates[0].content.parts) {
           //   // Based on the part type, either show the text or save the image
@@ -110,7 +109,7 @@ Example Output:
           //     // console.log("Image saved as gemini-native-image.png");
           //   }
           // }
-          
+
           return imageData;
         } catch (error) {
           console.error(`Error generating image for fact: ${fact}`, error);
@@ -142,21 +141,27 @@ Example Output:
 function parseFacts(text) {
   // Split the text into individual fact blocks
   const entries = text.split(/\n(?=\d+\.\s+\*\*Fact:\*\*)/);
-  
+
   const factObjects = entries.map(entry => {
     // Extract the fact part
     const factMatch = entry.match(/\*\*Fact:\*\*(.*?)\*\*Description:\*\*/s);
     let fact = factMatch ? factMatch[1].trim() : "";
-    
+
     // Extract the description part
     const descriptionMatch = entry.match(/\*\*Description:\*\*(.*?)\*\*Highlights:\*\*/s);
     let description = descriptionMatch ? descriptionMatch[1].trim() : "";
-    
+
     // Extract the highlights part
     const highlightsMatch = entry.match(/\*\*Highlights:\*\*\s*\[(.*?)\]/s);
     let highlights = highlightsMatch ? highlightsMatch[1].trim().split(/,\s*/) : [];
-    let m_fact=fact.replace(/\*/g, '');
-    let m_description=description.replace(/\*/g, '');
+
+    // Remove all asterisks from each highlight
+    highlights = highlights.map(highlight => highlight.replace(/\*/g, ''));
+
+    console.log("highlights>>:", highlights);
+
+    let m_fact = fact.replace(/\*/g, '');
+    let m_description = description.replace(/\*/g, '');
     return {
       fact: m_fact,
       description: m_description,

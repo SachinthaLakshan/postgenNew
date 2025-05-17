@@ -10,6 +10,7 @@ import { ShowcaseSection } from "../Layouts/showcase-section";
 import { RadioInput } from "../FormElements/radio";
 import ColorPaletteInput from "../FormElements/colorPalette";
 import ColorPalette from "../FormElements/colorPalette";
+import ExcelFileuploaderButton from "../FormElements/excelFileuploaderButton";
 
 type FactType = {
   fact: string;
@@ -24,6 +25,13 @@ type ApiResponse = {
 
 type PropsType = {
   className?: string;
+};
+
+type FactRow = {
+  rowData: {
+    fact: string;
+    description: string;
+  };
 };
 
 export function GeneratePage({ className }: PropsType) {
@@ -111,6 +119,19 @@ export function GeneratePage({ className }: PropsType) {
     return await res.json();
   }
 
+  async function generateImagesManually() {
+    const res = await fetch("/api/generate-image-manual", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ facts: uploadedData }),
+    });
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Failed to generate images");
+    }
+    return await res.json();
+  }
+
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -120,7 +141,13 @@ export function GeneratePage({ className }: PropsType) {
     }
     setLoading(true);
     try {
-      const response = await generateImages(prompt);
+      let response;
+      if (mode === 'manual') {
+        response = await generateImagesManually();
+      } else {
+        response = await generateImages(prompt);
+      }
+
       if (response) {
         const data1: ApiResponse = { content: [...data.content, ...response.content], images: [...data.images, ...response.images] };
         setData(data1);
@@ -134,14 +161,34 @@ export function GeneratePage({ className }: PropsType) {
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMode(e.target.value as 'auto' | 'manual');
+    setPrompt("");
+    setFactCount(0);
+    setUploadedData([]);
   };
-  
+
   const handleColorsChange = (mainColor: string, childColors: string[]) => {
     setColors({
       main: mainColor,
       child: childColors
     });
   };
+
+  const [uploadedData, setUploadedData] = useState<FactRow[]>([]);
+
+  const handleFileUpload = (data: FactRow[]) => {
+    setUploadedData(data);
+    setPrompt(formatFactsForTextarea(data));
+    setFactCount(data.length);
+  };
+
+  function formatFactsForTextarea(data: FactRow[]): string {
+    return data
+      .map(
+        (item, index) =>
+          `Fact ${index + 1}:\n${item.rowData.fact}\nDescription:\n${item.rowData.description}\n`
+      )
+      .join('\n');
+  }
 
   return (
     <>
@@ -161,7 +208,10 @@ export function GeneratePage({ className }: PropsType) {
             <RadioInput value="auto" checked={mode === 'auto'} onChange={handleChange} label="Auto" />
             <RadioInput value="manual" checked={mode === 'manual'} onChange={handleChange} label="Manual" />
           </div>
-          {mode == 'manual' && <ColorPalette mainColor={colors.main} childColors={colors.child} onColorsChange={handleColorsChange} />}
+          <ColorPalette mainColor={colors.main} childColors={colors.child} onColorsChange={handleColorsChange} />
+          <div>
+            {mode == 'manual' && <ExcelFileuploaderButton onFileUpload={handleFileUpload} />}
+          </div>
           <InputGroup
             type="text"
             label="Page Name"
@@ -173,14 +223,16 @@ export function GeneratePage({ className }: PropsType) {
           <InputGroup
             type="number"
             label="Number of Facts"
+            disabled={mode === 'manual'}
             className="mb-4 [&_input]:py-[15px]"
             placeholder="Enter number of facts"
             handleChange={(e) => setFactCount(Number(e.target.value))}
             value={factCount}
           />
           <TextAreaGroup
+            disabled={mode === 'manual'}
             className="mb-4 [&_input]:py-[15px]"
-            placeholder="Enter your prompt"
+            placeholder={mode === 'manual' ? "Please upload user CSV or Excel file" : "Enter your prompt.\n Eg: Generate facts about the universe."}
             handleChange={(e) => setPrompt(e.target.value)}
             value={prompt}
             icon={<GlobeIcon />}
