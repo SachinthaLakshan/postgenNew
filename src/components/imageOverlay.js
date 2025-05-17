@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import styles from "./imageOverlay.module.css";
-export default function ImageOverlay({ imageUrl, content, pageName }) {
+export default function ImageOverlay({ imageUrl, content, pageName,colors }) {
   const canvasRef = useRef(null);
   const [isCopying, setIsCopying] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -74,7 +74,7 @@ export default function ImageOverlay({ imageUrl, content, pageName }) {
     // Get highlight words from content
     const highlightWords = content.highlights || [];
     const highlightColor = "#ffff00"; // Yellow color for highlights
-    const normalColor = "#ffffff";    // White color for normal text
+    const normalColor = colors.main;    // White color for normal text
   
     // Function to split text into wrapped lines with highlight information
     const createTextLines = () => {
@@ -160,7 +160,7 @@ export default function ImageOverlay({ imageUrl, content, pageName }) {
       // Draw each word with appropriate color
       line.forEach((wordObj, index) => {
         const word = wordObj.text + (index < line.length - 1 ? ' ' : '');
-        ctx.fillStyle = wordObj.isHighlight ? selectedColors[Math.floor(Math.random() * 3)] : normalColor;
+        ctx.fillStyle = wordObj.isHighlight ? colors.child[Math.floor(Math.random() * 3)] : normalColor;
         ctx.fillText(word, currentX, textY);
         currentX += ctx.measureText(word).width;
       });

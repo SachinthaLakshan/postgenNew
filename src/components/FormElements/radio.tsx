@@ -7,6 +7,8 @@ type PropsType = {
   name?: string;
   value?: string;
   minimal?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  checked?: boolean;
 };
 
 export function RadioInput({
@@ -15,6 +17,8 @@ export function RadioInput({
   name,
   value,
   minimal,
+  onChange,
+  checked
 }: PropsType) {
   const id = useId();
 
@@ -31,6 +35,8 @@ export function RadioInput({
             id={id}
             className="peer sr-only"
             value={value}
+            onChange={onChange}
+            checked={checked}
           />
           <div
             className={cn(

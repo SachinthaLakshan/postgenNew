@@ -23,6 +23,7 @@
     "nextjs-toploader": "^3.7.15",
     "react": "19.0.0",
     "react-apexcharts": "^1.7.0",
+    "react-colorful": "^5.6.1",
     "react-dom": "19.0.0",
     "react-toastify": "^11.0.5",
     "tailwind-merge": "^2.6.0"
