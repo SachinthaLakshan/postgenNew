@@ -15,7 +15,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { facts} = body;
+    const { facts,highlightCount} = body;
 
     if (!facts) {
       return NextResponse.json({ error: "Missing prompt." }, { status: 400 });
@@ -26,7 +26,8 @@ export async function POST(request) {
     if (facts.length > 0) {
       // Process images in parallel for better performance
       const imagePromises = facts.map(async (fact) => {
-       let factPrompt = `Description: ${fact.description}, Generate an image based on this description and create this image with  Hyper realistic natural look. image should be 3:4 aspect ratio.`;
+        console.log("fact>>:",fact.rowData.description);
+       let factPrompt = `Description: ${fact.rowData.description}, Generate an image based on this description and create this image with  Hyper realistic natural look. image should be 3:4 aspect ratio.`;
         try {
           const images = await runware.requestImages({
             positivePrompt: factPrompt,
@@ -54,7 +55,7 @@ export async function POST(request) {
     }
 
     return NextResponse.json({
-      content: contentAdding(facts),
+      content: contentAdding(facts,highlightCount),
       images: imageUrls
     }, { status: 200 });
 
@@ -87,7 +88,7 @@ function contentAdding(facts) {
   return factObjects.filter(obj => obj.fact);
 }
 
-function getRandomWords(text, count = 4) {
+function getRandomWords(text, count) {
     const words = text
       .replace(/[^\w\s]/g, '') // remove punctuation
       .split(/\s+/)            // split by whitespace

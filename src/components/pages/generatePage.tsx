@@ -39,6 +39,7 @@ export function GeneratePage({ className }: PropsType) {
   const [factCount, setFactCount] = useState(5);
   const [pageName, setPageName] = useState("Strange And Interesting Things");
   const [mode, setMode] = useState<'auto' | 'manual' | ''>('auto');
+  const [numberOfWordsToBeHighlighted, setNumberOfWordsToBeHighlighted] = useState(5);
   const [colors, setColors] = useState({
     main: '#fff',
     child: ['#c4a5df', '#ffd700', '#f06292', '#66ff73']
@@ -110,7 +111,7 @@ export function GeneratePage({ className }: PropsType) {
     const res = await fetch("/api/generate-image", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: refinedPrompt, numberOfFacts: factCount }),
+      body: JSON.stringify({ prompt: refinedPrompt, numberOfFacts: factCount,highlightCount: numberOfWordsToBeHighlighted}),
     });
     if (!res.ok) {
       const errorData = await res.json();
@@ -123,7 +124,7 @@ export function GeneratePage({ className }: PropsType) {
     const res = await fetch("/api/generate-image-manual", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ facts: uploadedData }),
+      body: JSON.stringify({ facts: uploadedData,highlightCount: numberOfWordsToBeHighlighted }),
     });
     if (!res.ok) {
       const errorData = await res.json();
@@ -228,6 +229,14 @@ export function GeneratePage({ className }: PropsType) {
             placeholder="Enter number of facts"
             handleChange={(e) => setFactCount(Number(e.target.value))}
             value={factCount}
+          />
+          <InputGroup
+            type="number"
+            label="Number of words to be highlighted"
+            className="mb-4 [&_input]:py-[15px]"
+            placeholder="Enter number of facts"
+            handleChange={(e) => setNumberOfWordsToBeHighlighted(Number(e.target.value))}
+            value={numberOfWordsToBeHighlighted}
           />
           <TextAreaGroup
             disabled={mode === 'manual'}

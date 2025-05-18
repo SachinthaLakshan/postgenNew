@@ -17,7 +17,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { prompt, numberOfFacts } = body;
+    const { prompt, numberOfFacts,highlightCount } = body;
 
     if (!prompt) {
       return NextResponse.json({ error: "Missing prompt." }, { status: 400 });
@@ -63,7 +63,7 @@ Example Output:
     }
 
     const gptResponseContent = textResponse.text;
-    const contentArr = parseFacts(gptResponseContent);
+    const contentArr = parseFacts(gptResponseContent,highlightCount);
 
 
     // Generate images for each fact if content exists
@@ -138,7 +138,7 @@ Example Output:
 }
 
 
-function parseFacts(text) {
+function parseFacts(text,highlightCount) {
   // Split the text into individual fact blocks
   const entries = text.split(/\n(?=\d+\.\s+\*\*Fact:\*\*)/);
 
@@ -165,12 +165,31 @@ function parseFacts(text) {
     return {
       fact: m_fact,
       description: m_description,
-      highlights: highlights
+      highlights: getRandomWords(m_fact, highlightCount) // Get 4 random words from the fact
     };
   });
 
   // Filter out any empty entries that might have been created
   return factObjects.filter(obj => obj.fact);
 }
+
+function getRandomWords(text, count) {
+    const words = text
+      .replace(/[^\w\s]/g, '') // remove punctuation
+      .split(/\s+/)            // split by whitespace
+      .filter(word => word.length >= 4); // keep only words with length >= 4
+
+    const uniqueWords = [...new Set(words)];
+
+    if (uniqueWords.length <= count) return uniqueWords;
+
+    const selectedWords = new Set();
+    while (selectedWords.size < count) {
+      const randomIndex = Math.floor(Math.random() * uniqueWords.length);
+      selectedWords.add(uniqueWords[randomIndex]);
+    }
+
+    return Array.from(selectedWords);
+  }
 
 
